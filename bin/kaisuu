@@ -1,0 +1,60 @@
+#!/usr/bin/env ruby
+require_relative '../lib/kaisuu/counter.rb'
+require 'jdict'
+
+counter = My::WordCounter.new
+
+ARGV.each do |a|
+  txt = open(a)
+  txt.each_line { |line| counter.count(line, a) }
+end
+
+BASE_PATH   = ENV["HOME"]
+DICT_PATH   = File.join(BASE_PATH, '.dicts')
+INDEX_PATH  = DICT_PATH
+
+JDict.configure do |config|
+  config.dictionary_path    = DICT_PATH
+  config.index_path         = INDEX_PATH
+  config.language           = JDict::JMDictConstants::Languages::ENGLISH
+  config.num_results        = 50
+end
+
+# make sure that the dictionary file "JMDict" is in DICT_PATH before initializing.
+dict = JDict::JMDict.new
+
+counter.sort.each do |_word, obj|
+  results = dict.search(obj.name, true)
+
+  entry = results.first
+
+  kanji = obj.name
+  sense = ""
+  kana = ""
+
+  if entry
+    kanji = unless entry.kanji.empty?
+      if entry.kanji.is_a?(Array)
+        entry.kanji.join(', ')
+      else
+        entry.kanji
+      end
+    end
+    kana = entry.kana.join(', ') unless entry.kana.nil?
+    sense = if entry.senses.size > 1
+              sense = entry.senses.map.with_index(1) do |s, _|
+                pos = s.parts_of_speech.nil? ? '' : '(' + s.parts_of_speech.join(', ') + ') '
+                glosses = s.glosses.join(', ')
+                pos + glosses
+              end
+              sense.reverse.join(" \n ")
+            else
+              s = entry.senses.first
+              pos = s.parts_of_speech.nil? ? '' : '(' + s.parts_of_speech.join(', ') + ') '
+              glosses = s.glosses.join(', ')
+              pos + glosses
+            end
+  end
+
+  puts "#{kanji}	#{kana}	#{sense}	#{obj.example}	#{obj.count}	#{obj.file}"
+end
