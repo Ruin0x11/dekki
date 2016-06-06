@@ -1,4 +1,5 @@
 require 've'
+require 'set'
 
 module My
   class Word
@@ -8,7 +9,12 @@ module My
       @count = 1
       @name = name
       @example = example
-      @file = file
+      @file = Set.new
+      @file.add(file)
+    end
+
+    def sources
+      @file.to_a.join("; ")
     end
   end
 
@@ -38,9 +44,11 @@ module My
 
     # 単語数をカウント
     def count_up_result(words, text, filename)
+      warn "No words found in #{text}" if words.empty? && !text.strip.empty?
       words.each do |word|
         if @result[word.lemma]
           @result[word.lemma].count += 1
+          @result[word.lemma].file.add(filename)
         else
           @result[word.lemma] = My::Word.new(word.lemma, text.strip, filename)
         end

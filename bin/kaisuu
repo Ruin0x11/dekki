@@ -23,12 +23,19 @@ end
 # make sure that the dictionary file "JMDict" is in DICT_PATH before initializing.
 dict = JDict::JMDict.new
 
+puts "Kanji	Kana	Reading	Context	Frequency	Source"
+
 counter.sort.each do |_word, obj|
-  results = dict.search(obj.name, true)
+  #really dumb hack to drop する
+  query = obj.name.split('する')[0]
+  if query
+    results = dict.search(query, true)
+    entry = results.first
+  end
 
-  entry = results.first
+  #TODO: Handle katakana gracefully?
 
-  kanji = obj.name
+  kanji = query if query
   sense = ""
   kana = ""
 
@@ -47,7 +54,7 @@ counter.sort.each do |_word, obj|
                 glosses = s.glosses.join(', ')
                 pos + glosses
               end
-              sense.reverse.join(" \n ")
+              sense.reverse.join("; ")
             else
               s = entry.senses.first
               pos = s.parts_of_speech.nil? ? '' : '(' + s.parts_of_speech.join(', ') + ') '
@@ -56,5 +63,5 @@ counter.sort.each do |_word, obj|
             end
   end
 
-  puts "#{kanji}	#{kana}	#{sense}	#{obj.example}	#{obj.count}	#{obj.file}"
+  puts "#{kanji}	#{kana}	#{sense}	#{obj.example}	#{obj.count}	#{obj.sources}" if kanji
 end
