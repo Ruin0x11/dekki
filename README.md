@@ -9,10 +9,10 @@ Place the 'JMDict' dictionary in the `~/.dicts` folder before using.
 After installing the gem, run:
 
 ```
-kaisuu FILES > list.txt
+kaisuu FILES
 ```
 
-You can input multiple files.
+You can input multiple files. To create a single wordlist per file, use the `-i` flag.
 
 The order of the fields in the output is as follows:
 

@@ -137,8 +137,8 @@ module My
         #TODO: Handle katakana gracefully?
 
         kanji = query if query
-        sense = ""
-        kana = ""
+        sense = nil
+        kana = nil
 
         if entry
           kanji = kanji_for_entry(entry)
