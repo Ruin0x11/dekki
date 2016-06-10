@@ -2,17 +2,25 @@
 
 Create tab-separated Japanese word lists ordered by frequency for importing into Anki from text files.
 
-## Usage
+## Installation
+
+```
+gem build kaisuu && gem install kaisuu-0.1.0.gem
+```
 
 Place the 'JMDict' dictionary in the `~/.dicts` folder before using.
 
-After installing the gem, run:
+## Usage
 
 ```
-kaisuu FILES
+kaisuu [-ik] [-c LINES] FILES
 ```
 
 You can input multiple files. To create a single wordlist per file, use the `-i` flag.
+
+By default, cards that are missing all the required fields are ignored. This can happen if the dictionary fails to find an entry for a separated word. To keep these cards anyway, use the `-k` flag.
+
+The `-c` flag controls how many lines of context before and after the sentence the word is found in are kept.
 
 The order of the fields in the output is as follows:
 
@@ -26,13 +34,9 @@ The order of the fields in the output is as follows:
 * Position (line number word was first seen on)
 * Source (first file word was found in)
 
-Set your model's sort value to the frequency column.
+Once you have the wordlists, import the file into Anki. Make sure that the 'Allow HTML in fields' box is checked.
 
-Import the file into Anki. Make sure that the 'Allow HTML in fields' box is checked.
-
-Suspend all the cards. Many will have missing or incorrect readings/meanings (mostly loan words in katakana), but usually the important words that use kanji are left.
-
-Unsuspend only the cards you want to study.
+Many cards will have to be suspended, if they were detected incorrectly. Just press `!` while reviewing to suspend the current note.
 
 ## Notes
 
