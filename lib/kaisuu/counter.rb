@@ -47,7 +47,7 @@ module My
 
     # 単語数をカウント
     def count_up_result(words, text, filename, lineno)
-      warn "No words found in #{text}" if words.empty? && !text.strip.empty?
+      # warn "No words found in #{text}" if words.empty? && !text.strip.empty?
       words.each do |word|
         if @result[word.lemma]
           @result[word.lemma].count += 1

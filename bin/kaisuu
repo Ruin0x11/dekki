@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require_relative '../lib/kaisuu/counter.rb'
 require 'jdict'
+require 'optparse'
 
 BASE_PATH   = ENV["HOME"]
 DICT_PATH   = File.join(BASE_PATH, '.dicts')
@@ -15,7 +16,27 @@ end
 
 maker = My::CardMaker.new
 
-ARGV.each do |a|
-  cards = maker.generate_cards(a, true)
-  cards.each { |s| puts s }
+keep = false
+individual = false
+context = 2
+output = "wordlist.txt"
+
+ARGV.options do |opts|
+  opts.on("-i", "--individual", "Make individual decks")   { |val| individual = val }
+  opts.on("-k", "--keep", "Keep cards with missing fields") { |val| keep = val  }
+  opts.on("-c", "--context=val", Integer, "Sentences to keep surrounding example") { |val| context = val }
+  opts.on("-o", "--output=val", "Filename (for single file only)") { |val| output = val }
+  opts.parse!
 end
+
+cards = []
+
+ARGV.each do |a|
+  cards += maker.generate_cards(a, keep, individual, context)
+  if individual
+    File.open("#{a}.txt", 'w') { |file| file.write(cards.join("\n")) }
+    cards = []
+  end
+end
+
+File.open(output, 'w') { |file| file.write(cards.join("\n")) } unless individual
