@@ -23,7 +23,9 @@ The order of the fields in the output is as follows:
 
 Set your model's sort value to the frequency column.
 
-Import the file into Anki and suspend all the cards. Many will have missing or incorrect readings/meanings (mostly loan words in katakana), but usually the important words that use kanji are left.
+Import the file into Anki. Make sure that the 'Allow HTML in fields' box is checked.
+
+Suspend all the cards. Many will have missing or incorrect readings/meanings (mostly loan words in katakana), but usually the important words that use kanji are left.
 
 Unsuspend only the cards you want to study.
 
