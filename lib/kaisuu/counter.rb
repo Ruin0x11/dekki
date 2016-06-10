@@ -119,7 +119,7 @@ module My
       txt.each_with_index { |line, index| @counter.count(line, filename, index) }
 
       cards = []
-      # cards << "Kanji\tKana\tReading\tBefore\tContext\tAfter\tFrequency\tPosition\tSource"
+      # cards << "Kanji\tKana\tMeaning\tBefore\tContext\tAfter\tFrequency\tPosition\tSource"
 
       @counter.sort.each do |_token, word|
         # since the lemmas of Words like "1話" become "*話", remove extra '*'s
