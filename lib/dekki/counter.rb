@@ -114,8 +114,8 @@ module My
       "#{before}\t#{current}\t#{after}"
     end
 
-    def generate_cards(filename, keep_incomplete = false, individual_decks = false, context_sentences = 2)
-      txt = File.readlines(filename).map(&:strip)
+    def generate_cards(array, filename, keep_incomplete = false, individual_decks = false, context_sentences = 2)
+      txt = array.map(&:strip)
       txt.each_with_index { |line, index| @counter.count(line, filename, index) }
 
       cards = []
@@ -130,7 +130,7 @@ module My
         query = lemma if query == '*'
 
         if query
-          results = @dict.search(query, true)
+          results = @dict.search(query, false)
           entry = results.first
         end
 
@@ -141,14 +141,14 @@ module My
         kana = nil
 
         if entry
-          kanji = kanji_for_entry(entry)
-          kana = kana_for_entry(entry)
-          sense = sense_for_entry(entry)
+          kanji = entry.kanji_to_s
+          kana = entry.kana_to_s
+          sense = entry.senses_to_s("<br>")
         end
 
         context = get_sentences(txt, word.lineno, context_sentences)
 
-        if (kanji && kana && sense) || keep_incomplete
+        if ((kanji || kana) && sense) || keep_incomplete
           cards << "#{kanji}\t#{kana}\t#{sense}\t#{context}\t#{word.count}\t#{word.lineno}\t#{word.sources}"
         end
       end

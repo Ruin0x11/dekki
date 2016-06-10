@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require_relative '../lib/kaisuu/counter.rb'
+require_relative '../lib/dekki/counter.rb'
 require 'jdict'
 require 'optparse'
 
@@ -9,7 +9,6 @@ INDEX_PATH  = DICT_PATH
 
 JDict.configure do |config|
   config.dictionary_path    = DICT_PATH
-  config.index_path         = INDEX_PATH
   config.language           = JDict::JMDictConstants::Languages::ENGLISH
   config.num_results        = 50
 end
@@ -19,7 +18,7 @@ maker = My::CardMaker.new
 keep = false
 individual = false
 context = 2
-output = "wordlist.txt"
+output = nil
 
 ARGV.options do |opts|
   opts.on("-i", "--individual", "Write a deck for each file")   { |val| individual = val }
@@ -31,12 +30,20 @@ end
 
 cards = []
 
-ARGV.each do |a|
-  cards += maker.generate_cards(a, keep, individual, context)
-  if individual
+if individual
+  ARGV.each do |a|
+    list = File.open(a, 'r').readlines
+    cards += maker.generate_cards(list, a, keep, individual, context)
     File.open("#{a}.txt", 'w') { |file| file.write(cards.join("\n")) }
     cards = []
   end
-end
+else
+  cards = maker.generate_cards(ARGF.readlines, nil, keep, individual, context)
+  wordlist = cards.join("\n")
 
-File.open(output, 'w') { |file| file.write(cards.join("\n")) } unless individual
+  if output
+    File.open(output, 'w') { |file| file.write(wordlist) }
+  else
+    puts wordlist
+  end
+end
