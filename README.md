@@ -1,4 +1,4 @@
-# Dekki
+# dekki
 
 Quickly create Anki flashcards out of Japanese text.
 
