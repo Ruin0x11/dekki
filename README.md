@@ -1,6 +1,18 @@
 # Dekki
 
-Create tab-separated Japanese word lists ordered by frequency for importing into Anki from text files.
+Quickly create Anki flashcards out of Japanese text.
+
+Turns sequential lines of Japanese text, like this:
+
+```
+世の中に不満があるなら自分を変えろ。
+それが嫌なら耳と眼を閉じ口を噤んで孤独に暮らせ。
+それも嫌なら…
+```
+
+...into cards like this:
+
+
 
 ## Requirements
 
