@@ -12,7 +12,7 @@ Turns sequential lines of Japanese text, like this:
 
 ...into cards like this:
 
-
+![example](https://raw.githubusercontent.com/Ruin0x11/dekki/master/img/example.png)
 
 ## Requirements
 
@@ -26,6 +26,8 @@ Install the above requirements, then do:
 ```
 gem install dekki
 ```
+
+If the dictionary hasn't been downloaded, you will be prompted to do so on the first run.
 
 ## Usage
 
@@ -63,4 +65,4 @@ Many cards will have to be suspended, if they were parsed incorrectly. Just pres
 
 ## Notes
 
-Rough around the edges, since there are many false positives. Use at your own risk.
+Rough around the edges, since there are many false positives. May also be inefficient for large files. Use at your own risk.
