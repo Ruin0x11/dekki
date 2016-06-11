@@ -43,6 +43,8 @@ The order of the fields in the output is as follows:
 * Position (line number word was first seen on)
 * Source (first file word was found in)
 
+To my knowledge, JMDict entries always contain kana, but might not contain kanji, so cards without kanji will have the kana field copied there.
+
 Once you have the wordlist, import the file into Anki. Make sure that the 'Allow HTML in fields' box is checked.
 
 Many cards will have to be suspended, if they were parsed incorrectly. Just press `!` while reviewing to suspend the current note.

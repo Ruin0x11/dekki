@@ -141,14 +141,15 @@ module My
         kana = nil
 
         if entry
-          kanji = entry.kanji_to_s
           kana = entry.kana_to_s
+          kanji = entry.kanji_to_s
+          kanji = kana if kanji.empty?
           sense = entry.senses_to_s("<br>")
         end
 
         context = get_sentences(txt, word.lineno, context_sentences)
 
-        if ((kanji || kana) && sense) || keep_incomplete
+        if (kana && sense) || keep_incomplete
           cards << "#{kanji}\t#{kana}\t#{sense}\t#{context}\t#{word.count}\t#{word.lineno}\t#{word.sources}"
         end
       end
